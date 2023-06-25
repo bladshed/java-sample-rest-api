@@ -19,8 +19,8 @@ public class DeliveryRepositoryTest {
 
     @Test
     public void findDeliveryManActiveOrder(){
-        Optional<Delivery> delivery = deliveryRepository.findDeliveryManActiveOrder(2L);
+        Optional<Delivery> delivery = deliveryRepository.findDeliveryManActiveOrder(4L);
 
-        Assert.assertEquals("mateo@yahoo.com", delivery.get().getDeliveryMan().getEmail());
+        Assert.assertEquals("lebron@yahoo.com", delivery.get().getDeliveryMan().getEmail());
     }
 }
