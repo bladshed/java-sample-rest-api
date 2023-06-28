@@ -2,14 +2,14 @@
 In this assignment, you are expected to make changes to an existing API backend code. Please read the constraints and tasks carefully, make your changes, and follow submission guideline at the bottom of the page.
 
 ## Scenario:
-BayzDelivery is a delivery startup which allows its users to register as delivery men or customers.
+eDelivery is a delivery startup which allows its users to register as delivery men or customers.
 
 Customer gives an order from the online shop and delivery man picks the order and drives it to the customer.
 
 At the end of delivery, delivery man sends a request to the server with his/her id, customer id, order id, the distance in km and the start and end time of delivery.
 
 ## Application Constraints:
-- Users are using BayzDelivery mobile app, assume that the API is only consumed by mobile app
+- Users are using eDelivery mobile app, assume that the API is only consumed by mobile app
 - User can not be both customer and delivery man at the same time. Only one must be chosen at registration
 - The delivery man earns commission for each order. `Commission = OrderPrice * 0.05 + Distance * 0.5`
 - The delivery man is not allowed to deliver multiple orders at the same time
