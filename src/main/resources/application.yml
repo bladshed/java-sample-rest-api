@@ -1,15 +1,16 @@
 spring:
+  profiles:
+    active: postgresql
   datasource:
-    url: jdbc:postgresql://localhost:5432/bayzdelivery
+    url: jdbc:h2:mem:bayzdelivery
     username: db_user
     password: 123qwe
-    driver-class-name: org.postgresql.Driver
-    initialization-mode: always
+    driver-class-name: org.h2.Driver
   jpa:
     open-in-view: false
     show-sql: true
     hibernate:
-      dialect: org.hibernate.dialect.PostgreSQL94Dialect
+      dialect: org.hibernate.dialect.H2Dialect
       ddl-auto: none
   liquibase:
     change-log: classpath:/db/changelog/db.changelog-master.xml
@@ -20,6 +21,6 @@ spring:
 server:
   error:
     include-stacktrace: never
-  port: 8081
+  port: 8080
   servlet:
     context-path: /api

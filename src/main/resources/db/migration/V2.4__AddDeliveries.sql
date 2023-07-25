@@ -1,15 +1,3 @@
-INSERT INTO public.person(email, name, registration_number, type)
-VALUES ('francis@yahoo.com', 'Francis', '123FMS', 'D')
-,('paolo@yahoo.com', 'Paolo', '123JPS', 'D')
-,('carlos@yahoo.com', 'Carlos', '123CJS', 'D')
-,('lebron@yahoo.com', 'LeBron', '623LBJ', 'D')
-,('kobe@yahoo.com', 'Kobe', '824KBB', 'D')
-,('ramon@yahoo.com', 'Ramon', '616rts', 'C')
-,('agnes@yahoo.com', 'Agnes', '108ABS', 'C')
-,('kenzo@yahoo.com', 'Kenzo', '126KBS', 'C')
-,('mateo@yahoo.com', 'Mateo', '777MGS', 'C')
-,('abraham@yahoo.com', 'Abraham', '101ABR', 'C');
-
 INSERT INTO public.delivery(commission, distance, end_time, price, start_time, customer_id, delivery_man_id)
 VALUES (24.5, 50, '2023-06-23 02:18:10.938553', 50, '2023-06-23 02:17:50.938553', 7, 4)
 ,(27.5, 25, '2023-06-23 02:28:10.938553', 30, '2023-06-23 02:27:50.938553', 8, 5)

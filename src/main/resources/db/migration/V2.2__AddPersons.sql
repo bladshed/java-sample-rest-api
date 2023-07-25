@@ -1,0 +1,11 @@
+INSERT INTO public.person(email, name, registration_number, type)
+VALUES ('francis@yahoo.com', 'Francis', '123FMS', 'D')
+,('paolo@yahoo.com', 'Paolo', '123JPS', 'D')
+,('carlos@yahoo.com', 'Carlos', '123CJS', 'D')
+,('lebron@yahoo.com', 'LeBron', '623LBJ', 'D')
+,('kobe@yahoo.com', 'Kobe', '824KBB', 'D')
+,('ramon@yahoo.com', 'Ramon', '616rts', 'C')
+,('agnes@yahoo.com', 'Agnes', '108ABS', 'C')
+,('kenzo@yahoo.com', 'Kenzo', '126KBS', 'C')
+,('mateo@yahoo.com', 'Mateo', '777MGS', 'C')
+,('abraham@yahoo.com', 'Abraham', '101ABR', 'C');
