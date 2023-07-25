@@ -10,6 +10,8 @@ import java.util.Optional;
 @RestResource(exported=false)
 public interface PersonRepository extends PagingAndSortingRepository<Person, Long> {
 
+    Optional<Person> findByUsername(String userName);
+
     @Query(
             value = "SELECT * FROM PERSON p WHERE p.email = ?1",
             nativeQuery = true

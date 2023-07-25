@@ -1,6 +1,6 @@
 spring:
   profiles:
-    active: postgresql
+    active: default
   datasource:
     url: jdbc:h2:mem:bayzdelivery
     username: db_user
@@ -24,3 +24,11 @@ server:
   port: 8080
   servlet:
     context-path: /api
+
+# application-specific string used to encrypt tokens
+security:
+  jwt:
+    token:
+      secret-key: secret-key-for-encryption
+      # token valid for 10 minutes
+      expiration: 600000
