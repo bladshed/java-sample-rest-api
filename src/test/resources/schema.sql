@@ -1,6 +1,10 @@
--- Table: publicperson
+-- Drop Tables
+DROP TABLE IF EXISTS delivery;
+DROP TABLE IF EXISTS person_role;
+DROP TABLE IF EXISTS security_role;
+DROP TABLE IF EXISTS person;
 
--- DROP TABLE IF EXISTS public.person;
+-- Table: publicperson
 
 CREATE TABLE IF NOT EXISTS person
 (
@@ -14,8 +18,6 @@ CREATE TABLE IF NOT EXISTS person
 );
 
 -- Table: public.delivery
-
--- DROP TABLE IF EXISTS public.delivery;
 
 CREATE TABLE IF NOT EXISTS delivery (
   id BIGINT AUTO_INCREMENT PRIMARY KEY,

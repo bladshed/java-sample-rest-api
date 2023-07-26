@@ -1,0 +1,37 @@
+spring:
+  profiles:
+    active: test
+  flyway:
+    enabled: false
+  datasource:
+    url: jdbc:h2:mem:bayzdelivery
+    username: db_user
+    password: 123qwe
+    driver-class-name: org.h2.Driver
+    initialization-mode: never
+  jpa:
+    open-in-view: false
+    show-sql: true
+    hibernate:
+      dialect: org.hibernate.dialect.H2Dialect
+      ddl-auto: none
+  liquibase:
+    change-log: classpath:/db/changelog/db.changelog-master.xml
+  sql:
+    init:
+      mode: never
+
+server:
+  error:
+    include-stacktrace: never
+  port: 8080
+  servlet:
+    context-path: /api
+
+# application-specific string used to encrypt tokens
+security:
+  jwt:
+    token:
+      secret-key: secret-key-for-encryption
+      # token valid for 1 day
+      expiration: 86400000
