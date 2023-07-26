@@ -111,7 +111,7 @@ public class PersonServiceImpl implements PersonService{
   @Override
   public Person signup(LoginDto loginDto) {
     LOG.info("New user attempting to sign in");
-    if (isUserExist(loginDto.getEmail()))
+    if (isUserExist(loginDto.getEmail()) || personRepository.findByUsername(loginDto.getUsername()).isPresent())
       throw new ApiRequestException("User already exist.");
 
     Optional<Person> user = Optional.empty();

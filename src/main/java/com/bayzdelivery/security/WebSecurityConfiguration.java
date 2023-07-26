@@ -1,6 +1,5 @@
 package com.bayzdelivery.security;
 
-import com.bayzdelivery.service.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -27,7 +26,6 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
         // Entry points
         http.authorizeRequests()
                 .antMatchers("/person/signin").permitAll()
-//                .antMatchers("**").permitAll()
                 // Disallow everything else..
                 .anyRequest().authenticated();
 

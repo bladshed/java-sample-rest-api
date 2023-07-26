@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -41,7 +42,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     return new ResponseEntity<>(apiException,HttpStatus.NOT_FOUND);
   }
 
-  @ExceptionHandler(AccessDeniedException.class)
+  @ExceptionHandler(HttpServerErrorException.class)
   public ResponseEntity<Object> handleHttpServerErrorException(HttpServerErrorException ex) {
     ApiException apiException = new ApiException(
             ex.getStatusCode().value(),
@@ -50,4 +51,5 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     );
     return new ResponseEntity<>(apiException,ex.getStatusCode());
   }
+
 }

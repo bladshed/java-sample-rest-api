@@ -54,28 +54,6 @@ public class PersonController {
     return ResponseEntity.ok(personService.findById(personId));
   }
 
-//  @PostMapping
-//  @Operation(summary = "Register new Person / User")
-//  @ApiResponses(value = {
-//          @ApiResponse(responseCode = "200", description = "OK"),
-//          @ApiResponse(responseCode = "400", description = "User already exist",
-//                  content = @Content(examples = {
-//                          @ExampleObject(name = "register",
-//                                  summary = "User already exist",
-//                                  description = "User already exist",
-//                                  value = "[{\n" +
-//                                          "  \"status\": 400,\n" +
-//                                          "  \"error\": \"BAD_REQUEST\",\n" +
-//                                          "  \"message\": \"User already exist.\"\n" +
-//                                          "}]")
-//                  })
-//          )
-//  })
-//  public ResponseEntity<Person> register(@RequestBody Person p) {
-//    p.setType(Character.toUpperCase(p.getType()));
-//    return ResponseEntity.ok(personService.save(p));
-//  }
-
   @PostMapping("/signin")
   public ResponseEntity<String> login(@RequestBody @Valid LoginDto loginDto) {
     return ResponseEntity.ok(personService.signin(loginDto.getUsername(), loginDto.getPassword()));

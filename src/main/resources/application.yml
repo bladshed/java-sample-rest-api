@@ -1,6 +1,6 @@
 spring:
   profiles:
-    active: default
+    active: postgresql
   datasource:
     url: jdbc:h2:mem:bayzdelivery
     username: db_user
@@ -30,5 +30,5 @@ security:
   jwt:
     token:
       secret-key: secret-key-for-encryption
-      # token valid for 10 minutes
-      expiration: 600000
+      # token valid for 1 day
+      expiration: 86400000

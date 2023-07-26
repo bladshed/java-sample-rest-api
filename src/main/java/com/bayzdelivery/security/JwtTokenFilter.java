@@ -1,6 +1,5 @@
 package com.bayzdelivery.security;
 
-import com.bayzdelivery.service.PersonService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -49,6 +48,7 @@ public class JwtTokenFilter extends GenericFilterBean {
         getBearerToken(headerValue).ifPresent(token-> {
             //Pull the Username and Roles from the JWT to construct the user details
             personDetailsService.loadUserByJwtToken(token).ifPresent(userDetails -> {
+                System.out.println("USER DETAILS:" + userDetails.toString());
                 //Add the user details (Permissions) to the Context for just this API invocation
                 SecurityContextHolder.getContext().setAuthentication(
                         new PreAuthenticatedAuthenticationToken(userDetails, "", userDetails.getAuthorities()));
