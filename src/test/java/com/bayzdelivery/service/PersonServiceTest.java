@@ -1,6 +1,5 @@
-package com.bayzdelivery.repositories;
+package com.bayzdelivery.service;
 
-import com.bayzdelivery.BayzDeliveryApplication;
 import com.bayzdelivery.model.Person;
 import org.junit.Assert;
 import org.junit.Test;
@@ -12,7 +11,6 @@ import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.transaction.Transactional;
-import java.util.Optional;
 import java.util.stream.StreamSupport;
 
 @RunWith(SpringRunner.class)
@@ -20,28 +18,28 @@ import java.util.stream.StreamSupport;
 @ActiveProfiles(value = "test")
 @Sql({"/schema.sql", "/data.sql"})
 @Transactional
-public class PersonRepositoryTest {
+public class PersonServiceTest {
 
     @Autowired
-    PersonRepository personRepository;
+    PersonService personService;
 
     @Test
-    public void testFindByUsername(){
-        Optional<Person> person = personRepository.findByUsername("test");
+    public void testFindById(){
+        Person person = personService.findById(11L);
 
-        Assert.assertEquals("test", person.get().getUsername());
+        Assert.assertEquals("Test", person.getName());
     }
 
     @Test
-    public void testGetPersonByEmail(){
-        Optional<Person> person = personRepository.findByEmail("francis@yahoo.com");
+    public void testIfUserExist(){
+        Boolean isUserExist = personService.isUserExist("test@yahoo.com");
 
-        Assert.assertEquals("francis@yahoo.com", person.get().getEmail());
+        Assert.assertEquals(true, isUserExist);
     }
 
     @Test
     public void testPersonSize(){
-        Iterable<Person> persons = personRepository.findAll();
+        Iterable<Person> persons = personService.getAll();
 
         Assert.assertEquals(11, StreamSupport.stream(persons.spliterator(), false).count());
     }

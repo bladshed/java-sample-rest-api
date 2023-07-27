@@ -28,6 +28,17 @@ public class Person implements Serializable{
     this.roles = Arrays.asList(role);
   }
 
+  public Person(Long id, String username, String password, String name, String email, Character type, String registrationNumber, Role role) {
+    this.id = id;
+    this.username = username;
+    this.password = password;
+    this.name = name;
+    this.email = email;
+    this.type = type;
+    this.registrationNumber = registrationNumber;
+    this.roles = Arrays.asList(role);
+  }
+
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   Long id;

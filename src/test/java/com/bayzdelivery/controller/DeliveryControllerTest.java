@@ -1,92 +1,122 @@
 package com.bayzdelivery.controller;
 
+import com.bayzdelivery.BayzDeliveryApplication;
 import com.bayzdelivery.model.Delivery;
+import com.bayzdelivery.model.DeliveryReport;
 import com.bayzdelivery.model.Person;
+import com.bayzdelivery.model.Role;
 import com.bayzdelivery.service.DeliveryService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.MediaType;
+import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.ResponseEntity;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
-import org.springframework.test.web.servlet.RequestBuilder;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.time.Instant;
+import java.util.Arrays;
 
+import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.http.HttpMethod.GET;
+import static org.springframework.http.HttpMethod.POST;
 
 @RunWith(SpringRunner.class)
-@WebMvcTest(DeliveryController.class)
+@SpringBootTest(
+        classes = {
+                BayzDeliveryApplication.class,
+                DeliveryController.class
+        },
+        webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT
+)
+@ActiveProfiles(value = "test")
 public class DeliveryControllerTest {
 
+  private Person customer = new Person(1L,"test1", "password", "Test1",
+          "test1@yahoo.com", 'C', "123TST", new Role());
+
+  private Person deliveryMan = new Person(2L,"test2", "password", "Test2",
+          "test2@yahoo.com", 'D', "321TST", new Role());
+
+  Delivery delivery = new Delivery(1L, Instant.now(), Instant.now(), 50,
+          50.0F, 27.5F, deliveryMan, customer);
+
   @Autowired
-  MockMvc mockMvc;
+  private TestRestTemplate restTemplate;
+
+  @Autowired
+  private JwtRequestHelper jwtRequestHelper;
 
   @MockBean
   private DeliveryService deliveryService;
 
-  @Test
-  public void endDelivery() throws Exception {
+  public class DeliveryReportImpl implements DeliveryReport {
 
-    Person deliveryMan = new Person();
-    deliveryMan.setId(2L);
+    @Override
+    public Long getId() {
+      return null;
+    }
 
-    Person customer = new Person();
-    customer.setId(1L);
+    @Override
+    public String getName() {
+      return null;
+    }
 
-    Delivery delivery = new Delivery();
-    delivery.setId(1L);
-    delivery.setDistance(50);
-    delivery.setPrice(50F);
-    delivery.setCommission(27.5F);
-    delivery.setStartTime(Instant.now());
-    delivery.setEndTime(Instant.now());
-    delivery.setDeliveryMan(deliveryMan);
-    delivery.setCustomer(customer);
+    @Override
+    public Float getSum() {
+      return null;
+    }
 
-    when(deliveryService.save(1L))
-            .thenReturn(delivery);
-
-    RequestBuilder request = MockMvcRequestBuilders
-            .post("/delivery/1")
-            .contentType(MediaType.APPLICATION_JSON);
-
-    MvcResult result = mockMvc.perform(request)
-            .andExpect(status().isOk())
-            .andReturn();
+    @Override
+    public Float getAverage() {
+      return null;
+    }
   }
 
   @Test
-  public void getDeliveryById() throws Exception {
-    Person deliveryMan = new Person();
-    deliveryMan.setId(2L);
+  public void getDeliveryById() {
+    when(deliveryService.findById(1L)).thenReturn(delivery);
 
-    Person customer = new Person();
-    customer.setId(1L);
+    ResponseEntity<Delivery> response = restTemplate.exchange("/delivery/1",
+            GET,
+            new HttpEntity(null,jwtRequestHelper.withRole("ROLE_ADMIN")),
+            Delivery.class);
 
-    Delivery delivery = new Delivery();
-    delivery.setDistance(50);
-    delivery.setCommission(27.5F);
-    delivery.setStartTime(Instant.now());
-    delivery.setEndTime(Instant.now());
-    delivery.setDeliveryMan(deliveryMan);
-    delivery.setCustomer(customer);
+    assertThat(response.getStatusCode().value(), is(200));
+    assertThat(response.getBody().getDeliveryMan().getUsername(), is(deliveryMan.getUsername()));
+    assertThat(response.getBody().getCustomer().getUsername(), is(customer.getUsername()));
+  }
 
-    when(deliveryService.findById(1L))
+  @Test
+  public void getTopDeliveryMen() {
+    when(deliveryService.getTopDeliveryMen(Mockito.anyString(), Mockito.anyString()))
+            .thenReturn(Arrays.asList(new DeliveryReportImpl(), new DeliveryReportImpl()));
+
+    ResponseEntity<String> response = restTemplate.exchange("/delivery/top-delivery-men?startDate=2023-01-01&endDate=2023-12-01",
+            GET,
+            new HttpEntity(null,jwtRequestHelper.withRole("ROLE_ADMIN")),
+            String.class);
+
+    assertThat(response.getStatusCode().value(), is(200));
+  }
+
+  @Test
+  public void testCreateNewDeliveryRequest() {
+    when(deliveryService.save(delivery))
             .thenReturn(delivery);
 
-    RequestBuilder request = MockMvcRequestBuilders
-            .get("/delivery/1")
-            .accept(MediaType.APPLICATION_JSON);
+    ResponseEntity<Delivery> response = restTemplate.exchange("/delivery",
+            POST,
+            new HttpEntity(delivery,jwtRequestHelper.withRole("ROLE_ADMIN")),
+            Delivery.class);
 
-    MvcResult result = mockMvc.perform(request)
-            .andExpect(status().isOk())
-            .andReturn();
+    assertThat(response.getStatusCode().value(), is(200));
   }
 
 }

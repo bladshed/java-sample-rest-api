@@ -39,6 +39,30 @@ public class Delivery implements Serializable{
   @JoinColumn(name = "customer_id", referencedColumnName = "id")
   Person customer;
 
+  public Delivery() {
+  }
+
+  public Delivery(Instant startTime, Instant endTime, Integer distance, Float price, Float commission, Person deliveryMan, Person customer) {
+    this.startTime = startTime;
+    this.endTime = endTime;
+    this.distance = distance;
+    this.price = price;
+    this.commission = commission;
+    this.deliveryMan = deliveryMan;
+    this.customer = customer;
+  }
+
+  public Delivery(Long id, Instant startTime, Instant endTime, Integer distance, Float price, Float commission, Person deliveryMan, Person customer) {
+    this.id = id;
+    this.startTime = startTime;
+    this.endTime = endTime;
+    this.distance = distance;
+    this.price = price;
+    this.commission = commission;
+    this.deliveryMan = deliveryMan;
+    this.customer = customer;
+  }
+
   public Long getId() {
     return id;
   }

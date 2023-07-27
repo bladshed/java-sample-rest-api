@@ -1,7 +1,8 @@
-package com.bayzdelivery.repositories;
+package com.bayzdelivery.service;
 
-import com.bayzdelivery.BayzDeliveryApplication;
 import com.bayzdelivery.model.Delivery;
+import com.bayzdelivery.model.DeliveryReport;
+import com.bayzdelivery.repositories.PersonRepository;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -13,6 +14,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.transaction.Transactional;
 import java.time.Instant;
+import java.util.List;
 import java.util.Optional;
 
 @RunWith(SpringRunner.class)
@@ -20,26 +22,26 @@ import java.util.Optional;
 @ActiveProfiles(value = "test")
 @Sql({"/schema.sql", "/data.sql"})
 @Transactional
-public class DeliveryRepositoryTest {
+public class DeliveryServiceTest {
 
     @Autowired
-    DeliveryRepository deliveryRepository;
+    DeliveryService deliveryService;
 
     @Autowired
     PersonRepository personRepository;
 
     @Test
-    public void findDeliveryManActiveOrder(){
-        Optional<Delivery> delivery = deliveryRepository.findDeliveryManActiveOrder(4L);
+    public void testTopDeliveryMenSize(){
+        List<DeliveryReport> deliveryReports = deliveryService.getTopDeliveryMen("2023-01-01", "2023-12-01");
 
-        Assert.assertEquals("lebron@yahoo.com", delivery.get().getDeliveryMan().getEmail());
+        Assert.assertTrue(deliveryReports.size() > 0);
     }
 
     @Test
     public void findDeliveryById(){
-        Optional<Delivery> delivery = deliveryRepository.findById(1L);
+        Delivery delivery = deliveryService.findById(1L);
 
-        Assert.assertEquals("Agnes", delivery.get().getCustomer().getName());
+        Assert.assertEquals("Agnes", delivery.getCustomer().getName());
     }
 
     @Test
@@ -48,10 +50,10 @@ public class DeliveryRepositoryTest {
         delivery.setPrice(11.0F);
         delivery.setDistance(10);;
         delivery.setDeliveryMan(personRepository.findById(1L).get());
-        delivery.setCustomer(personRepository.findById(8L).get());
+        delivery.setCustomer(personRepository.findById(7L).get());
         delivery.setStartTime(Instant.now());
 
-        Delivery newDelivery = deliveryRepository.save(delivery);
+        Delivery newDelivery = deliveryService.save(delivery);
 
         Assert.assertEquals(Optional.of(15L).get(), newDelivery.getId());
     }
